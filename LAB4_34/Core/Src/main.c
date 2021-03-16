@@ -51,6 +51,7 @@ uint32_t ButtonTimeStamp = 0;
 uint32_t ButtonTimeStamp2 = 0;
 uint32_t t = 0;
 uint32_t T = 0;
+uint32_t T2=0;
 uint32_t Time1=0;
 GPIO_PinState SWState[2];
 /* USER CODE END PV */
@@ -131,15 +132,19 @@ int main(void) {
 			Time1 = 1000+((22695477 * ADCData[0]) + ADCData[1]) % 10000;
 			if (HAL_GetTick() - ButtonTimeStamp >= Time1) //ms
 			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 				ButtonTimeStamp2 = HAL_GetTick();
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+				t++;
+
 			}
 		}
-		else if(t==3)
+		else if(t==4)
 		{
-			T = ButtonTimeStamp2;
-			t++;
+			T2 = HAL_GetTick();
+			T = T2 - ButtonTimeStamp2;
+			t=0;
 		}
+
 
 		/* USER CODE END 3 */
 	}
